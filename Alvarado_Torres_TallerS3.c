@@ -20,7 +20,7 @@ int main() {
         printf("5. Mostrar la calificacion maxima y minima por asignatura\n");
         printf("6. Mostrar la cantidad de aprobados y reprobados por asignatura\n");
         printf("7. Salir\n");
-        printf("Seleccione una opcion: ");//escoger
+        printf("Seleccione una opcion: ");
         scanf("%d", &opcion);
 
         switch (opcion) {
