@@ -1,0 +1,116 @@
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int es_nombre_valido(char nombre[]) {
+    for (int i = 0; nombre[i] != '\0'; i++) {
+        if (isdigit(nombre[i])) {
+            return 0; // No es válido si contiene números
+        }
+    }
+    return 1;
+}
+
+int main() {
+    char corredores[10][30];
+    int puntos[10];
+    int salida[10];
+    int n = 0, opc, i, j, temp;
+    char temp_nombre[30];
+
+    do {
+        printf("\nSeleccione una opción:\n");
+        printf("1. Registrar corredores\n");
+        printf("2. Mostrar los tres primeros lugares\n");
+        printf("3. Salir\n");
+        printf(">> ");
+        scanf("%d", &opc);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese el número de corredores (máx 10): ");
+                scanf("%d", &n);
+                if(n > 10 || n < 1){
+                    printf("Cantidad inválida de corredores.\n");
+                    break;
+                }
+
+                for (i = 0; i < n; i++) {
+                    do {
+                        printf("Ingrese el nombre del corredor %d: ", i + 1);
+                        fflush(stdin);
+                        fgets(corredores[i], 30, stdin);
+                        corredores[i][strcspn(corredores[i], "\n")] = 0;
+
+                        if (!es_nombre_valido(corredores[i])) {
+                            printf("Nombre inválido. No debe contener números.\n");
+                        }
+                    } while (!es_nombre_valido(corredores[i]));
+
+                    do {
+                        printf("Ingrese los puntos obtenidos por %s: ", corredores[i]);
+                        if (scanf("%d", &puntos[i]) != 1 || puntos[i] < 0) {
+                            printf("Entrada inválida. Ingrese solo números enteros positivos.\n");
+                            while(getchar() != '\n'); // limpiar buffer
+                            puntos[i] = -1; // marcar como inválido
+                        }
+                    } while (puntos[i] < 0);
+
+                    do {
+                        printf("Ingrese la posición de salida de %s: ", corredores[i]);
+                        if (scanf("%d", &salida[i]) != 1 || salida[i] < 1) {
+                            printf("Entrada inválida. Debe ser un número entero mayor a 0.\n");
+                            while(getchar() != '\n'); // limpiar buffer
+                            salida[i] = 0;
+                        }
+                    } while (salida[i] < 1);
+                }
+                break;
+
+            case 2:
+                if (n == 0) {
+                    printf("Debe registrar corredores primero.\n");
+                    break;
+                }
+
+                // Ordenar: mayor puntaje primero, si empatan gana el que salió MÁS ATRÁS (mayor número)
+                for (i = 0; i < n - 1; i++) {
+                    for (j = i + 1; j < n; j++) {
+                        if ((puntos[i] < puntos[j]) ||
+                            (puntos[i] == puntos[j] && salida[i] < salida[j])) {
+                            // Intercambiar puntos
+                            temp = puntos[i];
+                            puntos[i] = puntos[j];
+                            puntos[j] = temp;
+
+                            // Intercambiar posición de salida
+                            temp = salida[i];
+                            salida[i] = salida[j];
+                            salida[j] = temp;
+
+                            // Intercambiar nombres
+                            strcpy(temp_nombre, corredores[i]);
+                            strcpy(corredores[i], corredores[j]);
+                            strcpy(corredores[j], temp_nombre);
+                        }
+                    }
+                }
+
+                printf("\nTop 3 corredores:\n");
+                printf("#\tNombre\t\tPuntos\tPosición de salida\n");
+                for (i = 0; i < 3 && i < n; i++) {
+                    printf("%d\t%s\t\t%d\t%d\n", i + 1, corredores[i], puntos[i], salida[i]);
+                }
+                break;
+
+            case 3:
+                printf("Saliendo del programa...\n");
+                break;
+
+            default:
+                printf("Opción inválida.\n");
+        }
+    } while (opc != 3);
+
+    return 0;
+}

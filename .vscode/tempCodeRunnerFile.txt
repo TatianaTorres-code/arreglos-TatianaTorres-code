@@ -1,0 +1,61 @@
+#include <stdio.h>
+#include <string.h>
+
+int main (int argc, char *argv[]) {
+    char Nombre [5][30];
+    char Materia [3][15];
+    float Nota [5];
+    float total_notas=0, nota=0;
+    int opc1, cont=0,i,len,aux;
+    do{
+        printf("Seleccione la opcion:\n");
+        printf("1.Registrar Notas\n");
+        printf("2.Mostrar  alumno \n" );
+        printf("3.Mostrar promedio por materia\n");
+        printf("4. Mostrar calificaciones máximas y mínimas por alumno\n");
+        printf("5. Mostrar calificaciones máximas y mínimas por materia\n");
+        printf("6. Mostrar estudiantes aprobados y reprobados\n");
+        printf("7. Salir\n");
+        printf(">> ");
+        scanf("%d",&opc1);
+        switch (opc1)
+        {
+            case 1:
+                if (cont < 5)
+                {
+                    printf("Ingrese nombre de alumno %d: ", cont);
+                    fflush(stdin);
+                    fgets(Nombre[cont],30, stdin);
+                    len = strlen(Nombre[cont]) - 1;
+                    Nombre[cont][len] = '\0';
+                    
+                    printf("Ingrese materia %d: ", cont);             
+                    fflush(stdin);
+                    fgets(Materia[cont], 15, stdin);                    
+                    len = strlen(Materia[cont]) - 1;
+                    Materia[cont][len] = '\0';
+
+                    printf("Ingrese Nota %d: ", cont);
+                   //if (Nota>=0) || (Nota <= 10)
+                   //{
+                    scanf("%f", &Nota[cont]);
+                    //}
+                    cont++;
+                }
+                break;
+            case 2:
+                printf("Monstrar alunmo: \n");
+                printf("#\t\tnombre\t\tmateria\t\tnota\t\t\n");
+                
+                for (int i = 0; i < cont; i++)
+                {
+                    printf("%d\t\t%s\t\t%s\t\t%.2f\t\t\n",i,Nombre[i],Materia[i], Nota[i]);
+                }
+                printf(">> ");
+                scanf("%d", &aux);
+                break;
+                    
+        }
+    }while (opc1=7);
+    return 0;
+}

@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <string.h>
+
+int es_nombre_valido(char nombre[]) {
+    int i = 0;
+    while (nombre[i] != '\0') {
+        if (nombre[i] >= '0' && nombre[i] <= '9') {
+            return 0;
+        }
+        i++;
+    }
+    return 1;
+}
+
+int es_numero_valido(char texto[]) {
+    int i = 0;
+    while (texto[i] != '\0' && texto[i] != '\n') {
+        if (texto[i] < '0' || texto[i] > '9') {
+            return 0; 
+        }
+        i++;
+    }
+    return 1;
+}
+
+int convertir_a_entero(char texto[]) {
+    int resultado = 0;
+    int i = 0;
+    while (texto[i] != '\0' && texto[i] != '\n') {
+        resultado = resultado * 10 + (texto[i] - '0');
+        i++;
+    }
+    return resultado;
+}
+
+int main() {
+    char corredores[10][30];
+    int puntos[10];
+    int salida[10];
+    int n = 0, opc, i, j, temp;
+    char temp_nombre[30];
+    char entrada[30];
+
+    do {
+        printf("\nSeleccione una opción:\n");
+        printf("1. Registrar corredores\n");
+        printf("2. Mostrar los tres primeros lugares\n");
+        printf("3. Salir\n");
+        printf(">> ");
+        fgets(entrada, 30, stdin);
+        opc = convertir_a_entero(entrada);
+
+        switch (opc) {
+            case 1:
+                printf("Ingrese el número de corredores (máx 10): ");
+                fgets(entrada, 30, stdin);
+                if (!es_numero_valido(entrada)) {
+                    printf("Entrada inválida.\n");
+                    break;
+                }
+                n = convertir_a_entero(entrada);
+                if (n > 10 || n < 1) {
+                    printf("Cantidad inválida de corredores.\n");
+                    break;
+                }
+
+                for (i = 0; i < n; i++) {
+                    do {
+                        printf("Ingrese el nombre del corredor %d: ", i + 1);
+                        fgets(corredores[i], 30, stdin);
+                        corredores[i][strcspn(corredores[i], "\n")] = 0;
+
+                        if (!es_nombre_valido(corredores[i])) {
+                            printf("Nombre inválido. No debe contener números.\n");
+                        }
+                    } while (!es_nombre_valido(corredores[i]));
+
+                    do {
+                        printf("Ingrese los puntos obtenidos por %s: ", corredores[i]);
+                        fgets(entrada, 30, stdin);
+                        if (!es_numero_valido(entrada)) {
+                            printf("Puntos inválidos. Ingrese solo números positivos.\n");
+                            continue;
+                        }
+                        puntos[i] = convertir_a_entero(entrada);
+                    } while (puntos[i] < 0);
+
+                    do {
+                        printf("Ingrese la posición de salida de %s: ", corredores[i]);
+                        fgets(entrada, 30, stdin);
+                        if (!es_numero_valido(entrada)) {
+                            printf("Posición inválida. Ingrese solo números positivos mayores a 0.\n");
+                            continue;
+                        }
+                        salida[i] = convertir_a_entero(entrada);
+                    } while (salida[i] < 1);
+                }
+                break;
+
+            case 2:
+                if (n == 0) {
+                    printf("Debe registrar corredores primero.\n");
+                    break;
+                }
+
+                
+                for (i = 0; i < n - 1; i++) {
+                    for (j = i + 1; j < n; j++) {
+                        if ((puntos[i] < puntos[j]) ||
+                            (puntos[i] == puntos[j] && salida[i] < salida[j])) {
+                            
+                            temp = puntos[i];
+                            puntos[i] = puntos[j];
+                            puntos[j] = temp;
+                           
+                            temp = salida[i];
+                            salida[i] = salida[j];
+                            salida[j] = temp;
+                            
+                            strcpy(temp_nombre, corredores[i]);
+                            strcpy(corredores[i], corredores[j]);
+                            strcpy(corredores[j], temp_nombre);
+                        }
+                    }
+                }
+
+                printf("\nTop 3 corredores:\n");
+                printf("#\tNombre\t\tPuntos\tPosición de salida\n");
+                for (i = 0; i < 3 && i < n; i++) {
+                    printf("%d\t%s\t\t%d\t%d\n", i + 1, corredores[i], puntos[i], salida[i]);
+                }
+                break;
+
+            case 3:
+                printf("Saliendo del programa...\n");
+                break;
+
+            default:
+                printf("Opción inválida.\n");
+        }
+    } while (opc != 3);
+
+    return 0;
+}
