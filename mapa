@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mapa Mental - Modelo de Características de Lenguajes de Programación</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col items-center p-8">
+  <h1 class="text-2xl font-bold text-blue-700 mb-6 text-center">Modelo de Características de Lenguajes de Programación de Actores, Agentes y Objetos</h1>
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-5xl">
+    <div class="mermaid text-sm overflow-x-auto">
+      mindmap
+        root((Modelo de Características de Lenguajes de Programación))
+          Sistema de Tipos
+            Comprobación
+              Estático (Tiempo de compilación)
+              Dinámico (Tiempo de ejecución)
+            Inferencia
+            Subtipificación
+            Seguridad
+            Tipos Base
+              Booleanos
+              Números
+              Caracteres
+            Enumeraciones
+            Subrangos
+            Tipos de Orden Superior
+            Colecciones
+              Tuplas
+              Registros
+              Matrices
+              Diccionarios
+              Listas
+              Flujos
+          Estado Inmutable
+            Constantes
+            Asignación Única
+          Estado Mutable
+            Declaración
+            Asignación
+            Valoración
+            Recuperación
+            Modificación
+            Eliminación
+          Expresiones Declarativas
+            Funciones
+            Evaluación
+              Orden aplicativo
+              Orden normal
+              Evaluación perezosa
+            Condicionales
+            Recursión de Cola
+            Reglas de Inferencia
+            Resolución
+          Control Imperativo
+          Concurrencia Explícita
+            Paso de Mensajes
+            Memoria Compartida
+            Bloqueos (Lock/Mutex)
+            Serialización
+            Transacciones
+            Concurrencia Declarativa
+            Distribución
+          Modularidad
+            División
+            Extensión
+            Composición
+            Sustitución en Tiempo de Ejecución
+            Selección en Tiempo de Ejecución
+          Entrada/Salida
+            Mecanismos de Interacción (Sockets, TCP/IP, UDP)
+            Interacción con el entorno
+          Metaprogramación
+            Reflexiva en Tiempo de Ejecución
+    </div>
+  </div>
+</body>
+</html>
